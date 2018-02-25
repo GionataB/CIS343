@@ -1,15 +1,15 @@
-# CIS241
-Repo for CIS 241 related projects and code
+# CIS343
+Repo for CIS 343 related projects and code
 
-Labs: programs that are made from header files received from the instructor.
-Given the header file, implement the functions. The main is given by the instructor as well.
+Homework 1: This homework does not contain C code. The purpose of it was to learn how to use GitHub and how to write a .md file.
 
-Projects: Bigger programs than the labs, a project is written entirely by the student. However, the instructor gives the requirements in PDF form.
+Projects: Assigned in class, these projects can be done alone or in a group of 2.
+While these projects contain C code, only the first project is a pure C program.
+
 
 ### Table of Contents:
 
-| Labs | Location | Projects | Location |
-|------|----------|----------|----------|
-|First Lab| [File's input/output](https://github.com/GionataB/CIS241/tree/master/FileIO_lab1) | First Project | [Encryption and Decryption (Advanced)](https://github.com/GionataB/CIS241/tree/master/Encryption_project1)|
-|Second Lab| [Encryption and Decryption](https://github.com/GionataB/CIS241/tree/master/Encryption_lab2) | Second Project | Product Management System (Linked Lists) |
-|Third Lab| [Linked Lists](https://github.com/GionataB/CIS241/tree/master/LinkedList_lab3) | Third Project | TBA |
+| Projects | Location |
+|----------|----------|
+| First Project | [Game Of Life](https://github.com/GionataB/CIS343/tree/master/GameOfLife)|
+| Second Project | [Language Creation with Flex and Bison](https://github.com/GionataB/CIS343/tree/master/LanguageCreation)
