@@ -51,7 +51,7 @@ rectangle: RECTANGLE INT INT INT INT END_STATEMENT
 ;
 
 set_color: SET_COLOR INT INT INT END_STATEMENT
-					 {set_color( $2, $3, $4 )}
+					 {set_color( $2, $3, $4 );}
 ;
 
 end: END
