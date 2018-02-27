@@ -55,11 +55,7 @@ set_color: SET_COLOR INT INT INT END_STATEMENT
 ;
 
 end: END
-<<<<<<< HEAD
 		 {finish(); exit(1);}
-=======
-		 {finish(); exit();}
->>>>>>> c7328a3978839d41eb6a42aed82933b02c95630e
 ;
 
 %%
