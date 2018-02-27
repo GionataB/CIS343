@@ -35,7 +35,7 @@ statement:	point
 ;
 
 point: POINT INT INT END_STATEMENT
-			 {point( $1, $2 );}
+			 {point( $2, $3 );}
 ;
 
 line: LINE INT INT INT INT END_STATEMENT
