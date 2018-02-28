@@ -56,7 +56,6 @@ set_color: SET_COLOR INT INT INT END_STATEMENT
 
 end: END END_STATEMENT
 		 {finish(); exit(1);}
-;
 
 %%
 

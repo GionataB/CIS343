@@ -7,7 +7,7 @@
 
 %%
 
-"end" 					{return END;}
+end 						{return END;}
 ; 							{return END_STATEMENT;}
 "point" 				{return POINT;}
 "line" 					{return LINE;}
@@ -18,5 +18,5 @@
 [0-9]+\.[0-9]+ 	{return FLOAT;}
 [ \t\n]   			;
 [./,] 					{printf("Command Unknown");}
-
+<<EOF>>					{printf("The file is missing the 'end;' command.");}
 %%
