@@ -14,7 +14,7 @@
 "circle" 				{return CIRCLE;}
 "rectangle" 		{return RECTANGLE;}
 "set_color" 		{return SET_COLOR;}
-[0-9]+ 					{return INT;}
+[0-9]+ 					{yylval.i = atoi(yytext); return INT;}
 [0-9]+\.[0-9]+ 	{return FLOAT;}
 [ \t\n]   			;
 [./,] 					{printf("Command Unknown");}
