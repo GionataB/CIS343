@@ -18,5 +18,5 @@ end 						{return END;}
 [0-9]+\.[0-9]+ 	{return FLOAT;}
 [ \t\n]   			;
 [./,] 					{printf("Command Unknown");}
-<<EOF>>					{printf("The file is missing the 'end;' command.");}
+
 %%
