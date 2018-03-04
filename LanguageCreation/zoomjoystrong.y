@@ -53,7 +53,18 @@ help_modifier: HELP END_STATEMENT
 ;
 
 point: POINT INT INT END_STATEMENT
-			 {point( $2, $3 );}
+			 {int stop = 0;
+			 	if($2 < 0 || $2 > WIDTH){
+			  	printf("The point's abscissa has to be between 0 and %d", WIDTH);
+					stop = 1;
+					}
+				if($3 < 0 || $3 > HEIGHT){
+					printf("The point's ordinate has to be between 0 and %d", HEIGHT);
+					stop = 1;
+					}
+				if(stop == 0)
+			 		point( $2, $3 );
+			 }
 ;
 
 help_point: POINT END_STATEMENT
@@ -105,7 +116,7 @@ help_end: END
 
 int main(int argc, char** argv){
 	setup();
-	printf("Welcome to Zoomjoystrong!\nType help for a list of commands.\nAuthor: Gionata Bonazzi\t Date: 3/4/2018\n");
+	printf("Welcome to Zoomjoystrong!\nType \"help;\" for a list of commands.\nAuthor: Gionata Bonazzi\t Date: 3/4/2018\n");
 	yyparse();
 	return 0;
 }
