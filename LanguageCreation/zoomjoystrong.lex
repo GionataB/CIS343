@@ -19,6 +19,5 @@
 [0-9]+\.[0-9]+ 	{yylval.d = atof(yytext); return FLOAT;}
 [ \t\n]   			;
 [\./,]+ 				{printf("Command Unknown\n");}
-[.]+						{printf("TEST");}
 
 %%

@@ -48,8 +48,7 @@ modifier:	point
 			 	|	end
 ;
 
-help_modifier: HELP
-						 | HELP END_STATEMENT
+help_modifier: HELP END_STATEMENT
 						 	 {printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n");}
 ;
 
@@ -57,8 +56,7 @@ point: POINT INT INT END_STATEMENT
 			 {point( $2, $3 );}
 ;
 
-help_point: POINT
-					| POINT END_STATEMENT
+help_point: POINT END_STATEMENT
 						{printf("To draw a point, use the syntax: point x y;\n");}
 ;
 
@@ -67,8 +65,7 @@ line: LINE INT INT INT INT END_STATEMENT
 			{line( $2, $3, $4, $5 );}
 ;
 
-help_line: LINE
-				 | LINE END_STATEMENT
+help_line: LINE END_STATEMENT
 				 	 {printf("To draw a line, use the syntax: line x1 y1 x2 y2;\n");}
 ;
 
@@ -76,8 +73,7 @@ circle: CIRCLE INT INT INT END_STATEMENT
 				{circle( $2, $3, $4 );}
 ;
 
-help_circle: CIRCLE
-					 | CIRCLE END_STATEMENT
+help_circle: CIRCLE END_STATEMENT
 				 	 	 {printf("To draw an empty circle, use the syntax: circle x y r;\n");}
 ;
 
@@ -85,8 +81,7 @@ rectangle: RECTANGLE INT INT INT INT END_STATEMENT
 					 {rectangle( $2, $3, $4, $5 );}
 ;
 
-help_rectangle: RECTANGLE
-				 			| RECTANGLE END_STATEMENT
+help_rectangle: RECTANGLE END_STATEMENT
 				 				{printf("To draw a rectangle, use the syntax: rectangle x y w h;\n");}
 ;
 
@@ -95,8 +90,7 @@ set_color: SET_COLOR INT INT INT END_STATEMENT
 ;
 
 
-help_set_color: SET_COLOR
-				 			| SET_COLOR END_STATEMENT
+help_set_color: SET_COLOR END_STATEMENT
 				 		 		{printf("To change the drawing color, use the syntax: set_color r g b;\n");}
 ;
 
