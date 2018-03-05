@@ -8,11 +8,11 @@
 		int result = 0;
 	 	if(abscissa < 0 || abscissa > WIDTH){
 		 	printf("The point's abscissa has to be between 0 and %d\n", WIDTH);
-		 	stop = 1;
+		 	result = 1;
 			}
 	 	if(ordinate < 0 || ordinate > HEIGHT){
 			printf("The point's ordinate has to be between 0 and %d\n", HEIGHT);
-		 	stop = 1;
+		 	result = 1;
 			}
 		return result;
 	}
