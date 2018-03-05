@@ -37,7 +37,6 @@ helper: help_modifier
 			| help_circle
 			| help_rectangle
 			| help_set_color
-			| help_end
 ;
 
 modifier:	point
@@ -49,26 +48,18 @@ modifier:	point
 ;
 
 help_modifier: HELP END_STATEMENT
-						 	 {printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n");}
+						 	 {printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");}
 ;
 
 point: POINT INT INT END_STATEMENT
-			 {int stop = 0;
-			 	if($2 < 0 || $2 > WIDTH){
-			  	printf("The point's abscissa has to be between 0 and %d", WIDTH);
-					stop = 1;
-					}
-				if($3 < 0 || $3 > HEIGHT){
-					printf("The point's ordinate has to be between 0 and %d", HEIGHT);
-					stop = 1;
-					}
+			 {int stop = checkBoundaries($2, $3);
 				if(stop == 0)
 			 		point( $2, $3 );
 			 }
 ;
 
 help_point: POINT END_STATEMENT
-						{printf("To draw a point, use the syntax: point x y;\n");}
+						{printf("To draw a point, use the syntax: point x y;\n The x value has to be between 0 and %d, the y value between 0 and %d\n", WIDTH, HEIGHT);}
 ;
 
 
@@ -108,11 +99,20 @@ help_set_color: SET_COLOR END_STATEMENT
 end: END END_STATEMENT
 		 {finish(); exit(1);}
 
-help_end: END
-	 		 		{printf("To exit the program, use the syntax: end;\n");}
-;
-
 %%
+
+int checkBoundaries(int abscissa, int ordinate){
+	int result = 0;
+ 	if(abscissa < 0 || abscissa > WIDTH){
+	 	printf("The point's abscissa has to be between 0 and %d\n", WIDTH);
+	 	stop = 1;
+		}
+ 	if(ordinate < 0 || ordinate > HEIGHT){
+		printf("The point's ordinate has to be between 0 and %d\n", HEIGHT);
+	 	stop = 1;
+		}
+	return result;
+}
 
 int main(int argc, char** argv){
 	setup();
