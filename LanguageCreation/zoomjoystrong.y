@@ -72,16 +72,24 @@ point: POINT INT INT END_STATEMENT
 ;
 
 help_point: POINT END_STATEMENT
-						{printf("To draw a point, use the syntax: point x y;\n The x value has to be between 0 and %d, the y value between 0 and %d\n", WIDTH, HEIGHT);}
+						{printf("To draw a point, use the syntax: point x y;\nThe x value has to be between 0 and %d, the y value between 0 and %d\n", WIDTH, HEIGHT);}
 ;
 
 
 line: LINE INT INT INT INT END_STATEMENT
-			{line( $2, $3, $4, $5 );}
+			{int firstCheck = checkBoundaries($2, $3);
+			 if(firstCheck != 0)
+			 	printf("Please check the values for the first point.\n\n");
+			 int secondCheck = checkBoundaries($4, $5);
+			 if(secondCheck != 0)
+			 	printf("Please check the values for the second point.\n\n");
+			 if(firstCheck + secondCheck == 0)
+			 	line( $2, $3, $4, $5 );}
+			}
 ;
 
 help_line: LINE END_STATEMENT
-				 	 {printf("To draw a line, use the syntax: line x1 y1 x2 y2;\n");}
+				 	 {printf("To draw a line, use the syntax: line x1 y1 x2 y2;\nThe x1 and x2 values have to be between 0 and %d, the y1 and y2 values between 0 and %d\n", WIDTH, HEIGHT");}
 ;
 
 circle: CIRCLE INT INT INT END_STATEMENT
