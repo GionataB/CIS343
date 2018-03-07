@@ -3,19 +3,7 @@
 	#include "zoomjoystrong.h"
 	void yyerror(const char* msg);
 	int yylex();
-
-	int checkBoundaries(int abscissa, int ordinate){
-		int result = 0;
-	 	if(abscissa < 0 || abscissa > WIDTH){
-		 	printf("The point's abscissa has to be between 0 and %d\n", WIDTH);
-		 	result = 1;
-			}
-	 	if(ordinate < 0 || ordinate > HEIGHT){
-			printf("The point's ordinate has to be between 0 and %d\n", HEIGHT);
-		 	result = 1;
-			}
-		return result;
-	}
+	int checkBoundaries(int abscissa, int ordinate);
 %}
 
 %error-verbose
@@ -154,6 +142,20 @@ int main(int argc, char** argv){
 	return 0;
 }
 
+int checkBoundaries(int abscissa, int ordinate){
+	int result = 0;
+	if(abscissa < 0 || abscissa > WIDTH){
+		printf("The point's abscissa has to be between 0 and %d\n", WIDTH);
+		result = 1;
+		}
+	if(ordinate < 0 || ordinate > HEIGHT){
+		printf("The point's ordinate has to be between 0 and %d\n", HEIGHT);
+		result = 1;
+		}
+	return result;
+}
+
 void yyerror(const char* msg){
+	printf("WELP\n");
 	fprintf(stderr, "ERROR! %s\n", msg);
 }
