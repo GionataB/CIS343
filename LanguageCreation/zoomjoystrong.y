@@ -100,7 +100,7 @@ help_circle: CIRCLE END_STATEMENT
 ;
 
 rectangle: RECTANGLE INT INT INT INT END_STATEMENT
-					 {stop = checkBoundaries($2, $3);
+					 {int stop = checkBoundaries($2, $3);
 					 	if($2 + $4 > WIDTH)
 							printf("The rectangle is too wide.\n Please change the starting point or the width.\n");
 						if($3 + $5 > HEIGHT)
