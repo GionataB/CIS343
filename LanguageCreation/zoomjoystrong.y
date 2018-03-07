@@ -77,7 +77,7 @@ line: LINE INT INT INT INT END_STATEMENT
 ;
 
 help_line: LINE END_STATEMENT
-				 	 {printf("To draw a line, use the syntax: line x1 y1 x2 y2;\nThe x1 and x2 values have to be between 0 and %d, the y1 and y2 values between 0 and %d\n", WIDTH, HEIGHT");}
+				 	 {printf("To draw a line, use the syntax: line x1 y1 x2 y2;\nThe x1 and x2 values have to be between 0 and %d, the y1 and y2 values between 0 and %d\n", WIDTH, HEIGHT);}
 ;
 
 circle: CIRCLE INT INT INT END_STATEMENT
