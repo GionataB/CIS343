@@ -28,11 +28,11 @@ statement_list:	statement
 	            |	statement statement_list
 ;
 
-statement: modifier
+statement: command
 				 | helper
 ;
 
-helper: help_modifier
+helper: help_command
 			| help_point
 			| help_line
 			| help_circle
@@ -40,7 +40,7 @@ helper: help_modifier
 			| help_set_color
 ;
 
-modifier:	point
+command:	point
         | line
 				|	circle
 			 	|	rectangle
@@ -48,8 +48,10 @@ modifier:	point
 			 	|	end
 ;
 
-help_modifier: HELP END_STATEMENT
-						 	 {printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");}
+help_command: HELP END_STATEMENT
+						 	{printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");};
+						| HELP
+							{printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");}
 ;
 
 point: POINT INT INT END_STATEMENT
@@ -157,6 +159,6 @@ int checkBoundaries(int abscissa, int ordinate){
 }
 
 void yyerror(const char* msg){
-	printf("WELP\n");
 	fprintf(stderr, "ERROR! %s\n", msg);
+	yyparse(); //Prevent the program from crashing after a syntax error.
 }
