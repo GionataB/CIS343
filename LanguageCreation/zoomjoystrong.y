@@ -72,7 +72,7 @@ line: LINE INT INT INT INT END_STATEMENT
 			 if(secondCheck != 0)
 			 	printf("Please check the values for the second point.\n\n");
 			 if(firstCheck + secondCheck == 0)
-			 	line( $2, $3, $4, $5 );}
+			 	line( $2, $3, $4, $5 );
 			}
 ;
 
@@ -106,7 +106,8 @@ rectangle: RECTANGLE INT INT INT INT END_STATEMENT
 						if($3 + $5 > HEIGHT)
 							printf("The rectangle is too tall.\n Please change the starting point or the height.\n");
 					  if(stop == 0 && $2 + $4 <= WIDTH && $3 + $5 <= HEIGHT)
-					  rectangle( $2, $3, $4, $5 );}
+					  rectangle( $2, $3, $4, $5 );
+						}
 ;
 
 help_rectangle: RECTANGLE END_STATEMENT
