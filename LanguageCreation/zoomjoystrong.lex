@@ -18,6 +18,7 @@
 [0-9]+ 					{yylval.i = atoi(yytext); return INT;}
 [0-9]+\.[0-9]+ 	{yylval.d = atof(yytext); return FLOAT;}
 [ \t\n]   			;
-[\./,]+ 				{printf("Command Unknown\n");}
+[a-zA-Z]+				{return UNKNOWNWORD;}
+[\./,]+ 				{return UNKNOWNSYMBOL;}
 
 %%

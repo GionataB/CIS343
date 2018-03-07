@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include <string.h>
 	#include "zoomjoystrong.h"
 	void yyerror(const char* msg);
 	int yylex();
@@ -21,6 +22,8 @@
 %token <i> INT
 %token <d> FLOAT
 %token HELP
+%token UNKNOWNWORD
+%token UNKNOWNSYMBOL
 
 %%
 
@@ -159,6 +162,14 @@ int checkBoundaries(int abscissa, int ordinate){
 }
 
 void yyerror(const char* msg){
-	fprintf(stderr, "ERROR! %s\n", msg);
+	if(strcmp(msg, "UNKNOWNWORD") == 0){
+		printf("You used an unknown word.\n");
+	}
+	else if(strcmp(msg, "UNKNOWNSYMBOL") == 0){
+		printf("You used an unknown symbol.\n");
+	}
+	else{
+		fprintf(stderr, "ERROR! %s\n", msg);
+	}
 	yyparse(); //Prevent the program from crashing after a syntax error.
 }
