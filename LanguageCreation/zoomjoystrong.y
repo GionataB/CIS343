@@ -8,7 +8,7 @@
 %}
 
 %error-verbose
-%start statement_list
+%start program
 
 %union { int i; double d; }
 
@@ -20,12 +20,15 @@
 %token RECTANGLE
 %token SET_COLOR
 %token <i> INT
-%token <d> FLOAT
-%token HELP
+%token <d> FLOAT //Not used.
+%token HELP //Token to ask for a list of instructions.
 %token UNKNOWNWORD
-%token UNKNOWNSYMBOL
+%token UNKNOWNSYMBOL //Keep words and symbols separate to improve: 1. readability 2. Error's communication.
 
 %%
+
+program: statement_list end
+;
 
 statement_list:	statement
 	            |	statement statement_list
@@ -52,9 +55,7 @@ command:	point
 ;
 
 help_command: HELP END_STATEMENT
-						 	{printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");};
-						| HELP
-							{printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");}
+						 	{printf("List of commands:\npoint line circle rectangle set_color\nType the name of the command to learn more on how to use them.\n To close the program, type \"end;\"\n");}
 ;
 
 point: POINT INT INT END_STATEMENT
@@ -72,11 +73,11 @@ help_point: POINT END_STATEMENT
 line: LINE INT INT INT INT END_STATEMENT
 			{int firstCheck = checkBoundaries($2, $3);
 			 if(firstCheck != 0)
-			 	printf("Please check the values for the first point.\n\n");
+			 	printf("Please check the values for the first point.\n");
 			 int secondCheck = checkBoundaries($4, $5);
 			 if(secondCheck != 0)
-			 	printf("Please check the values for the second point.\n\n");
-			 if(firstCheck + secondCheck == 0)
+			 	printf("Please check the values for the second point.\n");
+			 if(firstCheck + secondCheck == 0) //Used two checks to give a more specific error message.
 			 	line( $2, $3, $4, $5 );
 			}
 ;
@@ -87,11 +88,11 @@ help_line: LINE END_STATEMENT
 
 circle: CIRCLE INT INT INT END_STATEMENT
 				{int stop = checkBoundaries($2, $3);
-				 if($2 + $4 > WIDTH){
+				 if($2 + $4 > WIDTH){ //Part of the circle will be drawn outside the window
 				 	printf("The circle will go outside the window.\nPlease, change the abscissa of the center, move the center, or change the radius.\n");
 					stop = 1;
 					}
-				 if($3 + $4 > HEIGHT){
+				 if($3 + $4 > HEIGHT){ //Part of the circle will be drawn outside the window
 				 	printf("The circle will go outside the window.\nPlease, change the ordinate of the center, move the center, or change the radius.\n");
 					stop = 1;
 					}
@@ -105,13 +106,17 @@ help_circle: CIRCLE END_STATEMENT
 ;
 
 rectangle: RECTANGLE INT INT INT INT END_STATEMENT
-					 {int stop = checkBoundaries($2, $3);
-					 	if($2 + $4 > WIDTH)
+					 {int stop = checkBoundaries($2, $3); //Check that the initial point is in the window
+					 	if($2 + $4 > WIDTH){ //Part of the rectangle will be drawn outside the window
 							printf("The rectangle is too wide.\n Please change the starting point or the width.\n");
-						if($3 + $5 > HEIGHT)
+							stop = 1;
+						}
+						if($3 + $5 > HEIGHT){ //Part of the rectangle will be drawn outside the window
 							printf("The rectangle is too tall.\n Please change the starting point or the height.\n");
-					  if(stop == 0 && $2 + $4 <= WIDTH && $3 + $5 <= HEIGHT)
-					  rectangle( $2, $3, $4, $5 );
+							stop = 1;
+						}
+					  if(stop == 0)
+					  	rectangle( $2, $3, $4, $5 );
 						}
 ;
 
@@ -120,17 +125,25 @@ help_rectangle: RECTANGLE END_STATEMENT
 ;
 
 set_color: SET_COLOR INT INT INT END_STATEMENT
-					 {if($2 > 255)
-					 		printf("The red value is too high.");
-						if($3 > 255)
-	 					 	printf("The green value is too high.");
-						if($4 > 255)
-							printf("The blue value is too high.");
-						if($2 <= 255 && $3 <= 255 && $4 <= 255)
+					 {int stop = 0;
+						if($2 > 255){
+					 		printf("The red value is too high.\n");
+							stop = 1;
+						}
+						if($3 > 255){
+	 					 	printf("The green value is too high.\n");
+							stop = 1;
+						}
+						if($4 > 255){
+							printf("The blue value is too high.\n");
+							stop = 1;
+						}
+						if(stop == 0) //Checks that the colors are between 0 and 255
 					  	set_color( $2, $3, $4 );
+						else
+							printf("Acceptable values for each color are between 0 and 255 (inclusive)\n");
 					 }
 ;
-
 
 help_set_color: SET_COLOR END_STATEMENT
 				 		 		{printf("To change the drawing color, use the syntax: set_color r g b;\nEach color's value has to be between 0 and 255\n");}
@@ -141,35 +154,48 @@ end: END END_STATEMENT
 
 %%
 
+/*******************************************************************************
+* The main method. It invokes the setup() function to create the drawing window,
+* a welcome message, and starts the parser.
+* @param argc the size of argv
+* @param argv array of strings passed from the command line.
+* @return 0 if the program ends succesfully.
+*******************************************************************************/
 int main(int argc, char** argv){
 	setup();
-	printf("Welcome to Zoomjoystrong!\nType \"help;\" for a list of commands.\nAuthor: Gionata Bonazzi\t Date: 3/4/2018\n");
+	printf("Welcome to Zoomjoystrong!\nType \"help;\" for a list of commands.\nAuthor: Gionata Bonazzi\t Date: 3/7/2018\n");
 	yyparse();
 	return 0;
 }
 
+/*******************************************************************************
+* The method checks if the point defined by the coordinates (abscissa, ordinate)
+* is inside the window or not.
+* @param abscissa the x-coordinate of the point
+* @param ordinate the y-coordinate of the point
+* @return 0 if the point is inside the window, 1 otherwise.
+*******************************************************************************/
 int checkBoundaries(int abscissa, int ordinate){
 	int result = 0;
-	if(abscissa < 0 || abscissa > WIDTH){
+	if(abscissa < 0 || abscissa > WIDTH){ //the x value is outside the window
 		printf("The point's abscissa has to be between 0 and %d\n", WIDTH);
 		result = 1;
 		}
-	if(ordinate < 0 || ordinate > HEIGHT){
+	if(ordinate < 0 || ordinate > HEIGHT){ //the y value is outside the window
 		printf("The point's ordinate has to be between 0 and %d\n", HEIGHT);
 		result = 1;
 		}
 	return result;
 }
 
+/*******************************************************************************
+* The method prints an error message in case there are unexpected tokens.
+* Simply put, if the statement is not a valid statement, the function
+* will print what token is wrong, and will restart parsing without closing
+* the program.
+* @param msg the error message returned by the parser.
+*******************************************************************************/
 void yyerror(const char* msg){
-	if(strcmp(msg, "UNKNOWNWORD") == 0){
-		printf("You used an unknown word.\n");
-	}
-	else if(strcmp(msg, "UNKNOWNSYMBOL") == 0){
-		printf("You used an unknown symbol.\n");
-	}
-	else{
-		fprintf(stderr, "ERROR! %s\n", msg);
-	}
+	fprintf(stderr, "ERROR! %s\n", msg);
 	yyparse(); //Prevent the program from crashing after a syntax error.
 }
