@@ -47,11 +47,11 @@ helper: help_command
 ;
 
 command:	point
-        | line
-				|	circle
-			 	|	rectangle
-			 	|	set_color
-			 	|	end
+       | line
+			 |	circle
+			 |	rectangle
+			 |	set_color
+			 |	end
 ;
 
 help_command: HELP END_STATEMENT
