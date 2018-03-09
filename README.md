@@ -12,5 +12,5 @@ While these projects contain C code, only the first project is a pure C program.
 | Projects | Location | Language |
 |----------|----------|----------|
 | First Project | [Game Of Life](https://github.com/GionataB/CIS343/tree/master/GameOfLife)| C |
-| Second Project| [Language Creation with Flex and Bison](https://github.com/GionataB/CIS343/tree/master/LanguageCreation)| C |
+| Second Project| [Language Creation with Flex and Bison](https://github.com/GionataB/CIS343/tree/master/LanguageCreation)| C, Lex, Yacc |
 | Third Project | [Text Based Game](https://github.com/GionataB/CIS343/tree/master/Zork)| Python |
