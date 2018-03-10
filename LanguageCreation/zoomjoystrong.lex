@@ -19,6 +19,6 @@
 [0-9]+\.[0-9]+ 	{yylval.d = atof(yytext); return FLOAT;}
 [ \t\n]   			;
 [a-zA-Z]+				{return UNKNOWNWORD;}
-[\./,]+ 				{return UNKNOWNSYMBOL;}
+[[:punct:]]+ 		{return UNKNOWNSYMBOL;}
 
 %%

@@ -8,7 +8,7 @@
 %}
 
 %error-verbose
-%start program
+%start statement_list
 
 %union { int i; double d; }
 
@@ -27,10 +27,7 @@
 
 %%
 
-program: statement_list end
-;
-
-statement_list:	statement
+statement_list:	statement end
 	            |	statement statement_list
 ;
 
