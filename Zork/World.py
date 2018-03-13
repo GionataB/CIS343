@@ -5,6 +5,7 @@
 ################################################################################
 
 import random
+import observe
 
 ################################################################################
 # A House is the object containing the NPCs.
@@ -13,29 +14,32 @@ import random
 # considered empty.
 # @inherit object
 ################################################################################
-class House(object):
+class House(Observer, Observable):
 
     ############################################################################
     # The constructor for a House object.
     # The constructor generates from 0 to 10 NPCs and put them in a list.
     # @param self a pointer to the current object
     ############################################################################
-    define __init__(self):
-        self.totalMonsters = random.randint(0,11) #The NPCs in the house, randomly chosen between 0 and 10
-        self.monsters = [] #The list of NPCs in the house
-        monster = -1
+    def __init__(self):
+        Observable.__init__(self)
+        self.totalNPCs = random.randint(0,11) #The NPCs in the house, randomly chosen between 0 and 10
+        self.NPCs = [] #The list of NPCs in the house
+        randomNPC = -1
         for num in range(self.totalMonsters):
-            monster = random.randint(NPC.getNumMonsters())
-            if(monster == 0):
-                self.monsters.append(Person())
-            elif(monster == 1):
-                self.monsters.append(Zombie())
-            elif(monster == 2):
-                self.monsters.append(Vampire())
-            elif(monster == 3):
-                self.monsters.append(Ghoul())
-            elif(monster == 4):
-                self.monsters.append(Werewolf())
+            randomNPC = random.randint(NPC.getNumMonsters())
+            if(randomNPC == 0):
+                npc = Person()
+            elif(randomNPC == 1):
+                npc = Zombie()
+            elif(randomNPC == 2):
+                npc = Vampire()
+            elif(randomNPC == 3):
+                npc = Ghoul()
+            elif(randomNPC == 4):
+                npc = Werewolf()
+            self.NPCs.append(npc)
+            npc.add_observer(self)
         self.setEmpty() #Checks if the list of monster is empty or made up of Persons only
 
     ############################################################################
@@ -45,16 +49,20 @@ class House(object):
     # @param self a pointer to the current object
     # @param monster the dead monster to be replaced
     ############################################################################
-    define dead(self, monster):
-        index = self.monsters.index(monter)
-        self.monsters[index] = Person()
+    def update(self, monster):
+        index = self.NPCs.index(monster)
+        monster.remove_observer(self)
+        self.NPCs[index] = Person()
+        self.monster[index].add_observer()
+        for observer in self.observers:
+            observer.update()
         self.setEmpty()
 
     ############################################################################
     # The method sets the House to empty if every monster inside has been killed.
     # @param self a pointer to the current object
     ############################################################################
-    define setEmpty(self):
+    def setEmpty(self):
         self.empty = self.checkEmpty() #Save the status of the house, to be retrieved without looping through a list.
 
     ############################################################################
@@ -65,8 +73,8 @@ class House(object):
     # @return False if there is at least a monster in the house
     # @return True if there is not a monster in the house.
     ############################################################################
-    define checkEmpty(self):
-        for item in self.monsters:
+    def checkEmpty(self):
+        for item in self.NPCs:
             if(item.name != "Person"):
                 return False
         else:
@@ -76,15 +84,21 @@ class House(object):
     # This function is the getter for the field 'empty'.
     # checkEmpty() should not be used to get the status of the house,
     # use this method instead.
-    # The reason is that checkEmpty() iterates through a list of monsters, but
+    # The reason is that checkEmpty() iterates through a list of NPCs, but
     # this method only checks a field variable.
     # @param self a pointer to the current object
     # @return False if there is at least a monster in the house
     # @return True if there is not a monster in the house.
     ############################################################################
-    define isEmpty(self):
+    def isEmpty(self):
         return self.empty
 
+    def getNumMonsters(self):
+        total = 0
+        for npc in self.NPCs:
+            if(npc.getName() != "Person"):
+                total += 1
+        return total
 
 ################################################################################
 # A Neighborhood is the grid of houses were the game is played.
@@ -103,16 +117,26 @@ class Neighborhood(object):
     # @param rows the number of houses in each column
     # @param cols the number of houses in each row
     ############################################################################
-    define __init__(self, rows, cols):
+    def __init__(self, rows, cols):
         self.currentHouse = 0 #The house the player is in. Starts from zero.
         self.rows = rows #The number of houses in each column
         self.cols = cols #The number of houses in each row
-        housesList = [[]] # A grid of Houses representing a real neighborhood
-        for i in range(cols):
-            columnOfHouses = [] # A temporary list of houses representing a column in the grid
-            for j in range(1, rows): #Create the houses from top to bottom, column by column
-                columnOfHouses.append(House()) #Create the rest of the rows
-            housesList.append(columnOfHouses)
+        self.housesList = [] # A grid of Houses representing a real neighborhood
+        for col in range(cols):
+            for row in range(rows): #Create the houses from top to bottom, column by column
+                housesList.append(House())
+        self.totalMonsters()
+
+    def totalMonsters(self):
+        self.totalMonsters = 0
+        for house in housesList:
+            self.totalMonsters += house.getNumMonsters()
+
+    def decreaseTotalMonsters(self):
+        self.totalMonsters -= 1
+
+    def getTotalMonsters(self):
+        return self.totalMonsters
 
     ############################################################################
     # The method prints the list of houses in the neighborhood as a grid.
@@ -123,14 +147,29 @@ class Neighborhood(object):
     # be considered empty.
     # @param self a pointer to the current object
     ############################################################################
-    define showNeighborhood(self):
-        for row in range(self.rows):
-            print("| ")
-            for col in range(self.cols):
-                if(self.currentHouse == row * (self.cols + 1) + col): #'unfold' the grid in a line.
-                    print("~ ")
-                elif(self.housesList[col][row].isEmpty()):
-                    print("O ")
-                else:
-                    print("X ")
-            print("|\n")
+    def showNeighborhood(self):
+        for index in range(len(self.housesList)):
+            if(index % self.cols == 0):
+                print(" |")
+                print("| "),
+            else if(index == self.currentHouse):
+                print("~ "),
+            else if(self.housesList[index].isEmpty()):
+                print("O "),
+            else:
+                print("X "),
+
+    ############################################################################
+    # Go to the next House.
+    # @param self a pointer to the current object
+    ############################################################################
+    def nextHouse(self):
+        self.currentHouse += 1
+
+    ############################################################################
+    # Get the current House object
+    # @param self a pointer to the current object
+    # @return the House object the player is currently in.
+    ############################################################################
+    def getHouse(self):
+        return self.housesList[index]

@@ -3,3 +3,4 @@ hierarchy.txt
 lex.yy.*
 *.tab.*
 Zork_UML.*
+test.*
