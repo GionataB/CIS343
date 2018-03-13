@@ -1,7 +1,5 @@
 import random
-#
-# COMPLETE
-#
+
 class Weapon(object):
     def __init__(self, name, minAttackModifier, maxAttackModifier, uses)
         self.name = name
@@ -24,6 +22,10 @@ class Weapon(object):
 
     def reset(self):
         self.uses = self.maxUses
+
+    def consumeWeapon(self):
+        if(self.canUse):
+            self.uses -= 1
 
 class HersheyKiss(Weapon):
     def __init__(self):
