@@ -28,7 +28,7 @@ class NPC(Observable):
         return self.numMonsters
 
     def attack(self):
-        return random.randint(self.minDamage, self.maxDamage + 1)
+        return random.randint(self.minDamage, self.maxDamage)
 
     def damage(self, damage):
         if(self.canBeDamaged): #Decrease the NPC's health only if it can be damaged.
@@ -46,24 +46,24 @@ class Player(Observable):
 
     def __init__(self):
         Observable.__init__(self)
-        self.health = random.randint(100, 126) #The health value. The player loses when the health reaches 0 (or less)
-        self.strength = random.randint(10, 21) #The raw strength. the damage inflicted is calculated using the raw strength multiplied by some modifiers
+        self.health = random.randint(100, 125) #The health value. The player loses when the health reaches 0 (or less)
+        self.strength = random.randint(10, 20) #The raw strength. the damage inflicted is calculated using the raw strength multiplied by some modifiers
         self.inventory = [HersheyKiss()] #The inventory has to have at least one HersheyKiss
         weapon = 0 #Make sure that there is no error in the first random weapon
         for i in range(9): #Randomly choose the other 9 weapons
-            weapon = random.randint(0, 4)
-            if(weapon == 0):
+            weapon = random.randint(1, 4)
+            if(weapon == 1):
                 weaponList.append(HersheyKiss())
-            elif(weapon == 1):
-                weaponList.append(SourStraw())
             elif(weapon == 2):
-                weaponList.append(ChocolateBar())
+                weaponList.append(SourStraw())
             elif(weapon == 3):
+                weaponList.append(ChocolateBar())
+            elif(weapon == 4):
                 weaponList.append(NerdBomb())
 
     def getHealth(self):
         return self.health
-        
+
     def attack(self, target):
         total = 0
         for item in self.inventory: #Attack with all weapons in the inventory at once
@@ -112,7 +112,7 @@ class Zombie(NPC):
     # @param self a pointer to the current object.
     ############################################################################
     def __init__(self):
-        NPC.__init__(self, "Zombie", random.randint(50, 101), 0, 10, True, {"SourStraw": 2.0})
+        NPC.__init__(self, "Zombie", random.randint(50, 100), 0, 10, True, {"SourStraw": 2.0})
 
 ################################################################################
 # A Vampire is an enemy NPC.
@@ -127,7 +127,7 @@ class Vampire(NPC):
     # @param self a pointer to the current object.
     ############################################################################
     def __init__(self):
-        NPC.__init__(self, "Vampire", random.randint(100, 201), 10, 20, True, {"ChocolateBar": 0.0} )
+        NPC.__init__(self, "Vampire", random.randint(100, 200), 10, 20, True, {"ChocolateBar": 0.0} )
 
 ################################################################################
 # A Ghoul is an enemy NPC.
@@ -143,7 +143,7 @@ class Ghoul(NPC):
     # @param self a pointer to the current object.
     ############################################################################
     def __init__(self):
-        NPC.__init__( self, "Ghoul", random.randint(40, 81), 15, 30, True, {"NerdBomb": 5.0} )
+        NPC.__init__( self, "Ghoul", random.randint(40, 80), 15, 30, True, {"NerdBomb": 5.0} )
 
 ################################################################################
 # A Werewolf is an enemy NPC.

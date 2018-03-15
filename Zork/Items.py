@@ -16,7 +16,7 @@ class Weapon(object):
 
     def getModifier(self):
         if(self.canUse()):
-            return random.randint(minAttackModifier, maxAttackModifier + 1) / 100
+            return random.randint(minAttackModifier, maxAttackModifier) / 100
         else:
             return 0 #The weapon does no damage
 

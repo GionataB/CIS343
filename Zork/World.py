@@ -11,23 +11,24 @@ class House(Observer, Observable):
 
     def __init__(self):
         Observable.__init__(self)
-        self.totalNPCs = random.randint(0,11) #The NPCs in the house, randomly chosen between 0 and 10
+        self.totalNPCs = random.randint(1, 10) #The NPCs in the house, randomly chosen between 0 and 10
         self.NPCs = [] #The list of NPCs in the house
-        randomNPC = -1
-        for num in range(self.totalMonsters):
-            randomNPC = random.randint(NPC.getNumMonsters())
-            if(randomNPC == 0):
+        randomNPC = 0
+        for num in range(self.totalNPCs):
+            randomNPC = random.randint(1, NPC.getNumMonsters())
+            if(randomNPC == 1):
                 npc = Person()
-            elif(randomNPC == 1):
-                npc = Zombie()
             elif(randomNPC == 2):
-                npc = Vampire()
+                npc = Zombie()
             elif(randomNPC == 3):
-                npc = Ghoul()
+                npc = Vampire()
             elif(randomNPC == 4):
+                npc = Ghoul()
+            elif(randomNPC == 5):
                 npc = Werewolf()
             self.NPCs.append(npc)
             npc.add_observer(self)
+            randomNPC = 0
 
     def getNumMonsters(self):
         total = 0
