@@ -6,28 +6,29 @@
 
 import random
 import observe
+import characters
 
-class House(Observer, Observable):
+class House(observe.Observer, observe.Observable):
 
     def __init__(self):
-        Observable.__init__(self)
+        observe.Observable.__init__(self)
         self.totalNPCs = random.randint(1, 10) #The NPCs in the house, randomly chosen between 0 and 10
         self.NPCs = [] #The list of NPCs in the house
         randomNPC = 0
         for num in range(self.totalNPCs):
-            randomNPC = random.randint(1, NPC.getNumMonsters())
+            randomNPC = random.randint(1, 5)
             if(randomNPC == 1):
-                npc = Person()
+                npc = characters.Person()
             elif(randomNPC == 2):
-                npc = Zombie()
+                npc = characters.Zombie()
             elif(randomNPC == 3):
-                npc = Vampire()
+                npc = characters.Vampire()
             elif(randomNPC == 4):
-                npc = Ghoul()
+                npc = characters.Ghoul()
             elif(randomNPC == 5):
-                npc = Werewolf()
-            self.NPCs.append(npc)
+                npc = characters.Werewolf()
             npc.add_observer(self)
+            self.NPCs.append(npc)
             randomNPC = 0
 
     def getNumMonsters(self):
@@ -41,26 +42,25 @@ class House(Observer, Observable):
         print("You defeated a %s!" % monster.getName())
         index = self.NPCs.index(monster)
         monster.remove_observer(self)
-        self.NPCs[index] = Person()
-        self.monster[index].add_observer()
+        self.NPCs[index] = characters.Person()
+        self.NPCs[index].add_observer(self)
         if(self.checkEmpty()):
             for observer in self.observers:
-                observer.update()
+                observer.update(False, "All monsters in the house defeated!\nYou found a chest full of weapons... All weapons' use have been reset!")
 
     def checkEmpty(self):
-        for item in self.NPCs:
-            if(item.name != "Person"):
+        for npc in self.NPCs:
+            if(npc.getName() != "Person"):
                 return False
-        else:
-            return True
+        return True
 
     def getListMonster(self):
         return self.NPCs
 
-class Neighborhood(Observable):
+class Neighborhood(observe.Observable):
 
     def __init__(self, rows, cols):
-        Observable.__init__()
+        observe.Observable.__init__(self)
         self.currentHouse = 0 #The house the player is in. Starts from zero.
         self.rows = rows #The number of houses in each column
         self.cols = cols #The number of houses in each row
@@ -70,23 +70,27 @@ class Neighborhood(Observable):
 
     def showNeighborhood(self):
         for index in range(len(self.housesList)):
-            if(index % self.cols == 0):
-                print(" |")
+            if(index == 0):
                 print("|", end=" ")
-            else if(index == self.currentHouse):
+            elif(index % self.cols == 0):
+                print("|")
+                print("|", end=" ")
+            if(index == self.currentHouse):
                 print("~", end=" ")
-            else if(index < self.currentHouse):
+            elif(index < self.currentHouse):
                 print("O", end=" ")
             else:
                 print("X", end=" ")
+        else:
+            print("|")
 
     def nextHouse(self):
         self.currentHouse += 1
-        if(self.housesList[self.currentHouse].checkEmpty):
-            self.nextHouse()
         if(self.currentHouse >= len(self.housesList)):
             for observer in self.observers:
-                observer.update("The player wins!")
+                observer.update(True, "The player wins!")
+        elif(self.housesList[self.currentHouse].checkEmpty()):
+            self.nextHouse()
         else:
             print("You enter a house!")
 

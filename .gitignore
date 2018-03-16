@@ -4,3 +4,4 @@ lex.yy.*
 *.tab.*
 Zork_UML.*
 test.*
+*__*

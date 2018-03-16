@@ -9,57 +9,58 @@
 
 import random
 import observe
+import items
 
-class NPC(Observable):
-
-    ## The number of unique NPCs currently in the game ##
-    numMonsters = 5
+class NPC(observe.Observable):
 
     def __init__(self, name, health, minDamage, maxDamage, canBeDamaged, modifier):
-        Observable.__init__(self)
+        observe.Observable.__init__(self)
         self.name = name #The type of NPC
         self.health = health #The NPC's health
         self.minDamage = minDamage #The NPC's minimum damage it can deal
         self.maxDamage = maxDamage #The NPC's maximum damage it can deal
-        self.canBeDamaged = canBeDamaged #Tells if the NPC is invincible or not
+        self.can_be_damaged = canBeDamaged #Tells if the NPC is invincible or not
         self.modifier = modifier #A dictionary of weaknesses and immunities. They are both considered damage modifiers.
 
-    def getNumMonsters(self):
-        return self.numMonsters
+    def canBeDamaged(self):
+        return self.can_be_damaged
+
+    def getName(self):
+        return self.name
 
     def attack(self):
         return random.randint(self.minDamage, self.maxDamage)
 
     def damage(self, damage):
-        if(self.canBeDamaged): #Decrease the NPC's health only if it can be damaged.
+        if(self.can_be_damaged): #Decrease the NPC's health only if it can be damaged.
             self.health -= damage #Inflict the damage
             if(self.health <= 0):
                 for observer in self.observers:
                     observer.update(self) #Change the monster back to a person
 
     def getModifier(self, weaponName):
-        if(self.modifier.has_key(weaponName)): #Check that the weapon is in the dictionary
-            return self.modifier["name"]
+        if(weaponName in self.modifier): #Check that the weapon is in the dictionary
+            return self.modifier[weaponName]
         return 1.0 #The npc does not have a modifier for that weapon
 
-class Player(Observable):
+class Player(observe.Observable):
 
     def __init__(self):
-        Observable.__init__(self)
+        observe.Observable.__init__(self)
         self.health = random.randint(100, 125) #The health value. The player loses when the health reaches 0 (or less)
         self.strength = random.randint(10, 20) #The raw strength. the damage inflicted is calculated using the raw strength multiplied by some modifiers
-        self.inventory = [HersheyKiss()] #The inventory has to have at least one HersheyKiss
+        self.inventory = [items.HersheyKiss()] #The inventory has to have at least one HersheyKiss
         weapon = 0 #Make sure that there is no error in the first random weapon
         for i in range(9): #Randomly choose the other 9 weapons
             weapon = random.randint(1, 4)
             if(weapon == 1):
-                weaponList.append(HersheyKiss())
+                self.inventory.append(items.HersheyKiss())
             elif(weapon == 2):
-                weaponList.append(SourStraw())
+                self.inventory.append(items.SourStraw())
             elif(weapon == 3):
-                weaponList.append(ChocolateBar())
+                self.inventory.append(items.ChocolateBar())
             elif(weapon == 4):
-                weaponList.append(NerdBomb())
+                self.inventory.append(items.NerdBomb())
 
     def getHealth(self):
         return self.health
@@ -74,7 +75,7 @@ class Player(Observable):
         self.health -= damage
         if(self.health <= 0):
             for observer in self.observers:
-                observer.update("The player has lost!")
+                observer.update(True, "The player has lost!")
 
     def consumeAllWeapons(self):
         for weapon in self.inventory:

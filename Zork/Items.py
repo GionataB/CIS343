@@ -1,7 +1,7 @@
 import random
 
 class Weapon(object):
-    def __init__(self, name, minAttackModifier, maxAttackModifier, uses)
+    def __init__(self, name, minAttackModifier, maxAttackModifier, uses):
         self.name = name
         self.minAttackModifier = minAttackModifier
         self.maxAttackModifier = maxAttackModifier
@@ -16,7 +16,7 @@ class Weapon(object):
 
     def getModifier(self):
         if(self.canUse()):
-            return random.randint(minAttackModifier, maxAttackModifier) / 100
+            return random.randint(self.minAttackModifier, self.maxAttackModifier) / 100
         else:
             return 0 #The weapon does no damage
 
