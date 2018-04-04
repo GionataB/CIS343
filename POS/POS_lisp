@@ -1,10 +1,9 @@
 (define (startpos)
-  (
-    (dispay "Enter: ")
-    (let (n (read))
-      ((if (eq? n 0)
-        n ;;exit recursion
-        (write (+ n (startpos))) ;;sum by recursion
+  ((let ((n (read)))
+      ((if (eq? n -1)
+        0
+        ((display (+ n (startpos))(display "Enter: ")) 0)
+      ))
     )
   )
 )
