@@ -14,3 +14,5 @@ While these projects contain C code, only the first project is a pure C program.
 | First Project | [Game Of Life](https://github.com/GionataB/CIS343/tree/master/GameOfLife)| C |
 | Second Project| [Language Creation with Flex and Bison](https://github.com/GionataB/CIS343/tree/master/LanguageCreation)| C, Lex, Yacc |
 | Third Project | [Text Based Game](https://github.com/GionataB/CIS343/tree/master/Zork)| Python |
+| Fourth Project| [Point of Service](https://github.com/GionataB/CIS343/tree/master/POS)| Mit-Scheme (lisp) |
+| Term Paper    | [Javascript's paper](https://github.com/GionataB/CIS343/tree/master/Paper)| JavaScript |
