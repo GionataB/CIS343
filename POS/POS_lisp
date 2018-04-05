@@ -1,9 +1,0 @@
-(define (startpos)
-  ((let ((n (read)))
-      ((if (eq? n -1)
-        0
-        ((display (+ n (startpos))(display "Enter: ")) 0)
-      ))
-    )
-  )
-)

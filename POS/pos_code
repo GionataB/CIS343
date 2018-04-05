@@ -1,0 +1,13 @@
+(define (show_total)
+  (define (pos)
+    (display "Enter: ")
+    (let ((x (read)))
+      (if (<= x -1)
+        '0
+        (+ (pos) x)
+      )
+    )
+  )
+  (display(pos))
+  '0
+)
