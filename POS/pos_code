@@ -1,13 +1,13 @@
 (define (show_total)
-  (define (pos)
+  (define (pos) ;; function that keeps asking the user for a value, and returns the total.
     (display "Enter: ")
     (let ((x (read)))
-      (if (<= x -1)
+      (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
         '0
         (+ (pos) x)
       )
     )
   )
-  (display(pos))
-  '0
+  (display (pos)) ;;Display the value returned from the pos function.
+  '0 ;;If it returns 0, there was no problem in the execution
 )
