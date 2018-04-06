@@ -11,3 +11,20 @@
   (display (pos)) ;;Display the value returned from the pos function.
   '0 ;;If it returns 0, there was no problem in the execution
 )
+
+
+;; add the taxes. taxes rn are 0.06 i think, and print the total and total + taxes.
+
+(define (show_total_taxes)
+  (define (pos) ;; function that keeps asking the user for a value, and returns the total.
+    (display "Enter: ")
+    (let ((x (read)))
+      (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
+        '0
+        (+ (pos) x)
+      )
+    )
+  )
+  (let ((x pos)) (display "The total is: ") (write x) (newline) (display "The total plus taxes (6.1%) is: ") (write (* x 0.061)))
+  '0 ;;If it returns 0, there was no problem in the execution
+)
