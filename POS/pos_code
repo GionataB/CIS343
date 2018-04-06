@@ -12,10 +12,8 @@
   '0 ;;If it returns 0, there was no problem in the execution
 )
 
-
-;; add the taxes. taxes rn are 0.06 i think, and print the total and total + taxes.
-
 (define taxes 0.061)
+
 (define (show_total_taxes)
   (define (pos) ;; function that keeps asking the user for a value, and returns the total.
     (display "Enter: ")
