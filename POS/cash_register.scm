@@ -39,3 +39,5 @@
   )
   '0 ;;If it returns 0, there was no problem in the execution
 )
+
+(show_total_taxes)
