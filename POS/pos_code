@@ -19,18 +19,19 @@
 ;;the function takes inputs (numbers) until the user types a negative number, and returns the total, and the total with taxes factored in.
 (define (show_total_taxes)
   (define (pos) ;;Function that keeps asking the user for a value, and returns the total.
-    (display "Enter: $")
+    (display "Enter: $ ")
     (let ((x (read)))
-      (display "$")
+      (display "$ ")
       (write x)
       (newline)
-      (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
+      (if (<= x 0) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
         '0
         (+ (pos) x)
       )
     )
   )
-  (display "Start transaction (exit with 0 or lower): ")
+  (display "Start transaction (exit with 0 or lower):")
+  (newline)
   (let ((x (pos)))
     (display "Subtotal: $") (write x) ;;Display the total minus taxes
     (newline)
