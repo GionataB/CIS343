@@ -14,7 +14,7 @@
   '0 ;;If it returns 0, there was no problem in the execution
 )
 
-(define taxes 0.061) ;;The tax rate used by show_total_taxes
+(define taxes 0.065) ;;The tax rate used by show_total_taxes
 
 ;;the function takes inputs (numbers) until the user types a negative number, and returns the total, and the total with taxes factored in.
 (define (show_total_taxes)
