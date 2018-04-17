@@ -4,7 +4,7 @@
   (define (pos) ;; function that keeps asking the user for a value, and returns the total.
     (display "Enter: ")
     (let ((x (read)))
-      (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
+      (if (<= x 0) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
         '0
         (+ (pos) x)
       )
@@ -19,20 +19,24 @@
 ;;the function takes inputs (numbers) until the user types a negative number, and returns the total, and the total with taxes factored in.
 (define (show_total_taxes)
   (define (pos) ;;Function that keeps asking the user for a value, and returns the total.
-    (display "Enter: ")
+    (display "Enter: $")
     (let ((x (read)))
+      (display "$")
+      (write x)
+      (newline)
       (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
         '0
         (+ (pos) x)
       )
     )
   )
+  (display "Start transaction (exit with 0 or lower): ")
   (let ((x (pos)))
-    (display "The total is: ") (write x) ;;Display the total minus taxes
+    (display "Subtotal: $") (write x) ;;Display the total minus taxes
     (newline)
-    (display "The total plus taxes is: ") (write (+ x (* x taxes))) ;;Display the total plus taxes.
+    (display "Tax: ") (write (* taxes 100)) (display "%") ;;Display the taxes as a percentage
     (newline)
-    (display "With taxes applied equal to: ") (write (* taxes 100)) (display "%") ;;Display the taxes as a percentage
+    (display "Total: $") (write(/ (floor(* (+ x (* x taxes)) 100)) 100)) ;;Display the total plus taxes.
   )
   '0 ;;If it returns 0, there was no problem in the execution
 )
