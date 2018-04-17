@@ -40,4 +40,5 @@
   '0 ;;If it returns 0, there was no problem in the execution
 )
 
+(newline) ;; If the user loads the file using the (load) function, this prevents having the load function message on the same line as the pos first message
 (show_total_taxes)
