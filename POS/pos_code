@@ -1,4 +1,6 @@
-(define (show_total) ;;the function takes inputs (numbers) until the user types a negative number, and returns the flat total. (no taxes included)
+;;the function takes inputs (numbers) until the user types a negative number, and returns the flat total. (no taxes included)
+;;NOTE: This function is out of date, show_total_taxes does the same and much more. Use this only to have a simple output.
+(define (show_total)
   (define (pos) ;; function that keeps asking the user for a value, and returns the total.
     (display "Enter: ")
     (let ((x (read)))
@@ -14,8 +16,9 @@
 
 (define taxes 0.061) ;;The tax rate used by show_total_taxes
 
-(define (show_total_taxes) ;;;;the function takes inputs (numbers) until the user types a negative number, and returns the total, and the total with taxes factored in.
-  (define (pos) ;; function that keeps asking the user for a value, and returns the total.
+;;the function takes inputs (numbers) until the user types a negative number, and returns the total, and the total with taxes factored in.
+(define (show_total_taxes)
+  (define (pos) ;;Function that keeps asking the user for a value, and returns the total.
     (display "Enter: ")
     (let ((x (read)))
       (if (<= x -1) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
@@ -25,11 +28,11 @@
     )
   )
   (let ((x (pos)))
-    (display "The total is: ") (write x)
+    (display "The total is: ") (write x) ;;Display the total minus taxes
     (newline)
-    (display "The total plus taxes is: ") (write (+ x (* x taxes)))
+    (display "The total plus taxes is: ") (write (+ x (* x taxes))) ;;Display the total plus taxes.
     (newline)
-    (display "With taxes applied equal to: ") (write (* taxes 100)) (display "%")
+    (display "With taxes applied equal to: ") (write (* taxes 100)) (display "%") ;;Display the taxes as a percentage
   )
   '0 ;;If it returns 0, there was no problem in the execution
 )
