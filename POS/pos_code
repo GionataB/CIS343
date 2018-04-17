@@ -21,7 +21,7 @@
   (define (pos) ;;Function that keeps asking the user for a value, and returns the total.
     (display "Enter: $")
     (let ((x (read)))
-      (newline) (newline)
+      (newline)
       (if (<= x 0) ;;The function takes ONLY positive values, or zero. inputting any negative value will stop the program.
         '0
         (+ (pos) x)
@@ -36,7 +36,6 @@
     (display "Tax: ") (write (* taxes 100)) (display "%") ;;Display the taxes as a percentage
     (newline)
     (display "Total: $") (write(/ (floor(* (+ x (* x taxes)) 100)) 100)) ;;Display the total plus taxes, with a max of two decimal digits.
-    (newline)
   )
   '0 ;;If it returns 0, there was no problem in the execution
 )
