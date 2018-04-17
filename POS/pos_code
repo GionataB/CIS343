@@ -34,10 +34,11 @@
   (newline) (newline)
   (let ((x (pos)))
     (display "Subtotal: $") (write x) ;;Display the total minus taxes
-    (newline) (newline)
+    (newline)
     (display "Tax: ") (write (* taxes 100)) (display "%") ;;Display the taxes as a percentage
-    (newline) (newline)
+    (newline)
     (display "Total: $") (write(/ (floor(* (+ x (* x taxes)) 100)) 100)) ;;Display the total plus taxes.
+    (newline)
   )
   '0 ;;If it returns 0, there was no problem in the execution
 )
