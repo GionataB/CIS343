@@ -54,7 +54,7 @@ function calculator(){
   let secondValue = 0;
   let operation = "";
   let exit = false;
-  while (!exit){
+  while (true){
     operation = "";
     console.log("Insert the first number: ");
     firstValue = getNumber(useTotal, total);
@@ -62,14 +62,11 @@ function calculator(){
     if(exit){
       break;
     }
-    while(operation !== sum && operation !== diff && operation !== mult && operation !== div && operation !== pow && operation !== help){
+    while(operation !== closeOperation && operation !== sum && operation !== diff && operation !== mult && operation !== div && operation !== pow && operation !== help){
       console.log("Insert the operator:");
       operation = readline().trim();
-      exit = (operation === closeOperation);
-      if(exit){
-        break;
-      }
     }
+    exit = (operation === closeOperation);
     if(exit){
       break;
     }

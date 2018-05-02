@@ -7,3 +7,6 @@ test.*
 *__*
 *.not
 *.docx
+*participation*
+*.docx
+*.pdf
